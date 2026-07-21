@@ -5,6 +5,7 @@ import LoginForm from './components/Auth/LoginForm'
 import LandingPage from './pages/Landing/LandingPage'
 import AuthLayout from './layouts/AuthLayout'
 import Login from './pages/Auth/Login'
+import SignUp from './pages/Auth/SignUp'
 
 const AppRouter = () => {
   return (
@@ -14,6 +15,7 @@ const AppRouter = () => {
     <Route path="/" element={<LandingPage/>}></Route>
     <Route element={<AuthLayout/>}>
     <Route path='/login' element={<Login/>}></Route>
+    <Route path='/signup' element={<SignUp/>}></Route>
     </Route>
     
 

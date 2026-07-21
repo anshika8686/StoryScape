@@ -16,3 +16,14 @@ export async function login(username, password) {
 
   return response.data;
 }
+
+export async function signup(username,email,password){
+  const response=await api.post("/signup",{ 
+    username,
+    email,
+    password
+  })
+  console.log("Coming from signup function");
+  console.log(response);
+  return response.data;
+}

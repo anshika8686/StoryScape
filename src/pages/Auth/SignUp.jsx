@@ -1,16 +1,17 @@
-// import React from 'react'
-// import AuthCard from './AuthCard';
+import React from 'react'
+import AuthCard from './AuthCard';
+import SignupForm from '../../components/Auth/SignupForm';
 
-// const SignUp = () => {
+const SignUp = () => {
   
-//     return (
-//     <AuthCard
-//       title="Begin Your Story"
-//       subtitle="Every great adventure starts here."
-//     >
-//       <Signuo/>
-//     </AuthCard>
-//   );
-// }
+    return (
+    <AuthCard
+      title="Begin Your Story"
+      subtitle="Every great adventure starts here."
+    >
+    <SignupForm/>
+    </AuthCard>
+  );
+}
 
-// export default SignUp
+export default SignUp
