@@ -1,0 +1,16 @@
+const express=require('express')
+const cors = require('cors');
+const cookieParser=require('cookie-parser')
+const app=express()
+app.use(express.json())//middleware
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true, 
+
+}));
+app.use(cookieParser())
+//ROUTING
+const authRouter=require('./routes/auth.routes');
+//before any link use api/auth
+app.use("/api/auth",authRouter)
+module.exports=app

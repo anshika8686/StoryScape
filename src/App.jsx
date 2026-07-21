@@ -1,12 +1,14 @@
 import React from 'react'
-import LandingPage from './pages/LandingPage'
 import "./app.css"
+import AppRouter from './AppRouter'
+
+
 
 const App = () => {
   return (
-    <div>
-      <LandingPage/>
-    </div>
+    <main>
+       <AppRouter/>
+    </main>
   )
 }
 
