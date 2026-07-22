@@ -46,7 +46,8 @@ const LoginForm = () => {
              name='password'
              placeholder='Password'></InputField>
 
-            <AuthButton>Submit</AuthButton>
+            <AuthButton>
+              Submit</AuthButton>
         </form>
         <p className='text-gray-400 text-sm mt-3' >New to Storyscape? <Link className="text-gray-200" to="/signup">Create account</Link></p>
     </div>

@@ -1,31 +1,70 @@
-import{ createContext, useState }from "react";
-import { login, signup } from "../services/auth.api";
+import { createContext, useState } from "react";
+import { login, signup, logout } from "../services/auth.api";
+import { useNavigate } from "react-router-dom";
 
-export const AuthContext=createContext()
+export const AuthContext = createContext();
 
- export const AuthProvider=({children})=>{
-    const [loading, setloading] = useState(false)
+export const AuthProvider = ({ children }) => {
 
-    function handleLogin(username,password){
-        setloading(true);
-        const data=login(username,password);
-        console.log("data coming from handleLogin(auth.context)");
-        console.log(data);
-        return data;
-        setloading(false);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async (username, password) => {
+    try {
+      setLoading(true);
+
+      const data = await login(username, password);
+
+      setUser(data.user); 
+
+      return data;
+    } finally {
+      setLoading(false);
     }
+  };
 
-    function handlesignup(username,email,password){
-        setloading(true);
-        const data=signup(username,email,password);
-        console.log("data coming from handlesignup(auth.context)");
-        console.log(data);
-        return data;
-        setloading(false);
+  const handleSignup = async (username, email, password) => {
+    try {
+      setLoading(true);
+
+      const data = await signup(username, email, password);
+      setUser(data.user);
+
+      return data;
+    } finally {
+      setLoading(false);
     }
+  };
 
-    return (<AuthContext.Provider value={{loading,handleLogin, handlesignup}}>
-        {children}
-    </AuthContext.Provider>)
+  const handleLogout = async () => {
+    try {
+      setLoading(true);
 
-}
+      const res = await logout();
+
+      console.log(res);
+
+      setUser(null);
+
+    } catch (err) {
+      console.error("Logout failed:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        handleLogin,
+        handleSignup,
+        handleLogout,
+        setUser,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};

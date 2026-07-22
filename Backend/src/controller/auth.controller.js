@@ -103,7 +103,15 @@ catch (err) {
 }
 }
 
+async function logoutController(req,res,){
+    res.clearCookie("token");
+    return res.status(200).json({
+        message:"Log-Out successfully"
+    })
+
+}
     module.exports={
         loginController,
-        signupController
+        signupController,
+        logoutController
     }
