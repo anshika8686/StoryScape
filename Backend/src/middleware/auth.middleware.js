@@ -1,25 +1,31 @@
+const jwt = require("jsonwebtoken");
 function identifyUser(req,res,next){
     const token=req.cookies.token
     console.log("Printing token");
     console.log(token);
     if(!token){
-        res.status(401).json({
+        return res.status(401).json({
             message:"Unauthorised access"
         })
     }
 
     //VERIFYNG WHETHER THE USER WHO REQUESTED FOT THAT SERVICE IS AUTHORISED OR NOT
-    let decoded=null;
-    try{
-     decoded=jwt.verify(token,process.env.JWT_SECRET)
-    }
-    catch(err){
-     return res.status(401).json({
-         message: "User not authorised",
-    });
-  }
+    try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-  req.user=decoded // IF YES THEN SAVE USER ID
-  next()// pass the request from the above middleware to the next controller
+    console.log("Decoded token:", decoded);
+
+    req.user = decoded;
+
+    next();
+} catch (err) {
+    console.log("JWT Error:", err);
+
+    return res.status(401).json({
+        message: "User not authorised",
+    });
 }
-module.exports=identifyValidUser
+    
+  
+}
+module.exports=identifyUser

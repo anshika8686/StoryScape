@@ -26,11 +26,15 @@ export async function signup(username,email,password){
   })
   console.log("Coming from signup function");
   console.log(response);
-  setuser(res.user);
   return response.data;
 }
 
 export async function logout() {
   const response = await api.post("/logout");
+  return response.data;
+}
+
+export async function getme(){
+  const response=await api.get("/get-me")
   return response.data;
 }

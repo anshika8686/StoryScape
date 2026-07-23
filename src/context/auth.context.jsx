@@ -1,5 +1,5 @@
-import { createContext, useState } from "react";
-import { login, signup, logout } from "../services/auth.api";
+import { createContext, useEffect, useState } from "react";
+import { login, signup, logout, getme } from "../services/auth.api";
 import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
@@ -12,13 +12,11 @@ export const AuthProvider = ({ children }) => {
   const handleLogin = async (username, password) => {
     try {
       setLoading(true);
-
       const data = await login(username, password);
-
-      setUser(data.user); 
-
+      setUser(data.user)
       return data;
-    } finally {
+    } 
+      finally {
       setLoading(false);
     }
   };
@@ -26,11 +24,10 @@ export const AuthProvider = ({ children }) => {
   const handleSignup = async (username, email, password) => {
     try {
       setLoading(true);
-
       const data = await signup(username, email, password);
-      setUser(data.user);
-
+      setUser(data.user)
       return data;
+
     } finally {
       setLoading(false);
     }
@@ -39,11 +36,8 @@ export const AuthProvider = ({ children }) => {
   const handleLogout = async () => {
     try {
       setLoading(true);
-
       const res = await logout();
-
       console.log(res);
-
       setUser(null);
 
     } catch (err) {
@@ -52,6 +46,22 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     }
   };
+
+  const fetchUser=async()=>{
+    try {
+    const data = await getme();
+    setUser(data.user);
+    }
+    catch (err) {
+    setUser(null);
+  }
+  }
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+ console.log("logged-in user",user)
 
   return (
     <AuthContext.Provider
