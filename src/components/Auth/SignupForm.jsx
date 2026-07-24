@@ -8,7 +8,7 @@ const SignupForm = () => {
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
   const [email, setemail] = useState("");
-  const {loading,handlesignup}=useAuth();
+  const {loading,handleSignup}=useAuth();
   const navigate=useNavigate();
 
   const handleSubmit=(e)=>{
@@ -16,11 +16,11 @@ const SignupForm = () => {
     if(loading){
       return <h1>Loading...</h1>
     }
-    handlesignup(username,email,password)
+    handleSignup(username,email,password)
     .then((res)=>{
       console.log("Sign up successfull")
       console.log(res)
-      navigate("/");
+      navigate("/dashboard");
     })
   }
   return (

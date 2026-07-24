@@ -3,7 +3,8 @@ import { Sparkles } from "lucide-react";
 import { HeroBackground } from "./HeroBackground";
 import { FloatingParticles } from "./FloatingParticles";
 import { CTAButtons } from "./CTAButtons";
-import Navbar from "../Navbar";
+import Navbar from "../Common/Navbar";
+
 
 function Hero() {
   return (

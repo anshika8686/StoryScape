@@ -121,7 +121,7 @@ async function getmeController(req, res) {
         message: "User not found",
       });
     }
-
+//DATA WHICH IS GETTING RETURNED
     return res.status(200).json({
       message: "User details fetched successfully",
       user: {

@@ -19,7 +19,7 @@ const LoginForm = () => {
     handleLogin(username,password)
     .then((res)=>{
       console.log(res);
-      navigate("/")
+      navigate("/dashboard")
     })
 
     console.log("Login Form submitted successfully");
