@@ -13,9 +13,11 @@ app.use(cors({
 }));
 app.use(cookieParser())
 
-
 //ROUTING
 const authRouter=require('./routes/auth.routes');
+const storyRouter = require('./routes/story.route');
+
 //before any link use api/auth
 app.use("/api/auth",authRouter)
+app.use("/api/story",storyRouter)
 module.exports=app
