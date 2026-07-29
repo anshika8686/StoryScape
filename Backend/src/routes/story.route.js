@@ -1,4 +1,5 @@
 console.log("StoryRoutes loaded")
+
 const express=require('express')
 const identifyUser = require('../middleware/auth.middleware')
 const storyController=require("../controller/story.controller")
