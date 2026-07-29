@@ -8,7 +8,6 @@ import Login from './pages/Auth/Login'
 import SignUp from './pages/Auth/SignUp'
 import ProtectedRoute from './components/Common/ProtectedRoute'
 import Dashboard from './pages/Dashboard/Dashboard'
-import CreateStory from './pages/CreateStory/CreateStory'
 
 const AppRouter = () => {
   return (
@@ -24,7 +23,6 @@ const AppRouter = () => {
 
     <Route element={<ProtectedRoute/>}>
     <Route path='/dashboard' element={<Dashboard/>}></Route>
-    <Route path='/create-story' element={<CreateStory/>}></Route>
     </Route>
     
     

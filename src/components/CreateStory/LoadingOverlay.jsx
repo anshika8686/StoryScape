@@ -1,10 +1,7 @@
 import { motion } from "framer-motion";
 import { Loader2, Sparkles } from "lucide-react";
-import { useStory } from "../../hooks/story.use";
 
-const LoadingOverlay = ({  title = "Generating your animated story..." }) => {
-  const {loading}=useStory()
-  
+const LoadingOverlay = ({ loading = false, title = "Generating your animated story..." }) => {
   if (!loading) return null;
 
   return (
