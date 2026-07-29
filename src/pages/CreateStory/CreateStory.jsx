@@ -10,30 +10,8 @@ import LoadingOverlay from "../../components/CreateStory/LoadingOverlay";
 const CreateStory = () => {
   const [story, setStory] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-  const [loading, setLoading] = useState(false);
+ 
 
-  const handleGenerate = async () => {
-    if (!story.trim() && !selectedFile) {
-      alert("Please paste a story or upload a file first.");
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      // Placeholder for now.
-      // Later this will call your backend API.
-      console.log("Story:", story);
-      console.log("File:", selectedFile);
-
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000);
-    } catch (error) {
-      console.error("Generate failed:", error);
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-[#020617] text-white">
@@ -46,10 +24,10 @@ const CreateStory = () => {
 
         <UploadSection onFileSelect={setSelectedFile} />
 
-        <GenerateButton onClick={handleGenerate} loading={loading} />
+        <GenerateButton story={story} />
       </main>
 
-      <LoadingOverlay loading={loading} />
+      <LoadingOverlay />
     </div>
   );
 };
