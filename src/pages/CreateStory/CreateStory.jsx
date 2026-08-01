@@ -22,9 +22,9 @@ const CreateStory = () => {
 
         <StoryInput story={story} setStory={setStory} />
 
-        <UploadSection onFileSelect={setSelectedFile} />
+        <UploadSection onFileSelect={setSelectedFile}  />
 
-        <GenerateButton story={story} />
+        <GenerateButton story={story} selectedFile={selectedFile}/>
       </main>
 
       <LoadingOverlay />

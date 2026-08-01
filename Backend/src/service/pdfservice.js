@@ -11,6 +11,9 @@ async function pdfService(file) {
         const data = await pdfParse(buffer); 
         //pdf -parse cannot read a path directly, needs buffer
 
+        //delete the file
+        fs.unlinkSync(file.path);
+
         return data.text;
     } catch (err) {
         throw err;

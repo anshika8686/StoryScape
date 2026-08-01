@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { generatestory } from "../services/story.api";
+import { generatestory, uploadPdf } from "../services/story.api";
 
 export const StoryContext=createContext()
 export const StoryProvider=({children})=>{
@@ -23,7 +23,25 @@ export const StoryProvider=({children})=>{
 
     }
 }
-return (<StoryContext.Provider value={{loading, handlegenerateStory}} >
+
+const handleuploadPdf=async(file)=>{
+    if(!file) return;
+try{
+        setloading(true)
+        const data=await uploadPdf(file)
+        console.log("response from handle upload pdf")
+        console.log(data)
+        return data;
+    }
+    catch(err){
+        console.log(err.message)
+        throw err
+    }
+    finally{
+         setloading(false)
+    }
+}
+return (<StoryContext.Provider value={{loading, handlegenerateStory,handleuploadPdf}} >
     {children}
 </StoryContext.Provider>)
 }

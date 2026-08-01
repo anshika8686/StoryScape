@@ -16,3 +16,25 @@ export async function generatestory(story) {
   console.log(response.data);
   return response.data;
 }
+
+export async function uploadPdf(file) {
+  const formData=new FormData() // creating instance of formData
+  formData.append("pdf",file) //formData.append("key name",filename)
+  
+ try
+ { 
+  const response = await api.post("/upload-pdf", formData,{
+    headers:{
+      "Content-Type": "multipart/form-data",
+    }
+  });
+
+  console.log("Data from generate upload pdf function from frontend:");
+  console.log(response.data);
+  return response.data;
+}
+catch (error) {
+    console.error("Error uploading PDF:", error);
+    throw error;
+  }
+}

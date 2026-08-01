@@ -1,20 +1,31 @@
 const storyModel = require("../models/storymodel")
 const pdfService = require("../service/pdfservice")
+const {processStory}=require("../service/scene.service")
 
+//TAKES THE STORY
+//SENDS TO AI FOR PROCESSING 
+//RETURNS THE PROCESSED PART
 async function generatestoryController(req,res){
+    console.log("Reached generateStoryController");
 try{
     const {story}=req.body
-if(!story){
+if(!story || story.trim() === ""){
     return res.status(400).json({
         message:"Empty! Enter a valid story"
     })
 }
+
+const { cleanedStory, scenes } = await processStory(story);
 const userId=req.user.id
 const newStory=await storyModel.create({
     user:userId,
     title:"Untitled Story",
-    originalStory:story
+    originalStory:story,
+    cleanedStory:cleanedStory,
+    scenes:scenes,
+    status:"successful"
 })
+
 return res.status(201).json({
     message:"Story saved successfully",
     storyId:newStory._id
@@ -26,6 +37,10 @@ catch(err){
         });
 }
 }
+
+// TAKES THE PDF FILE
+// SENDS TO PDFSERVICE FOR THE EXTRACTION OF TEXT
+// SENDS TO GENERATESTORY FOR THE AI PROCESSING
 async function uploadpdfController(req,res){
     try{
     console.log("Reached uploadpdf controller")
@@ -39,10 +54,8 @@ async function uploadpdfController(req,res){
         })
     }
     const text=await pdfService(file);
-    return res.status(200).json({
-        message:"Text extracted successfully",
-        text
-    })
+    req.body.story=text;
+    return generatestoryController(req,res)
 }
 catch(err){
     console.error(err);
@@ -51,12 +64,6 @@ catch(err){
             message: err.message
         })
     }
- console.log("Controller reached");
-    console.log(req.file);
-
-    return res.status(200).json({
-        message: "Upload successful"
-    });
 }
 module.exports={
     generatestoryController,

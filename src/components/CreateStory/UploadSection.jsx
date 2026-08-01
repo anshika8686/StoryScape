@@ -1,18 +1,29 @@
 import { useRef, useState } from "react";
 import { FileText, UploadCloud, FileUp } from "lucide-react";
 
+const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB in bytes
+
 const UploadSection = ({ onFileSelect }) => {
   const pdfInputRef = useRef(null);
   const txtInputRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleFile = (file) => {
-    if (!file) return;
 
+  const handleFile =  (file) => {
+
+    if (!file) {
+        alert("No file uploaded");
+        return;
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+        alert("File size exceeds 20MB limit.");
+        return;
+    }
     setSelectedFile(file);
-    onFileSelect?.(file);
-  };
+    onFileSelect(file);
+  }
 
   const handleInputChange = (e) => {
     const file = e.target.files?.[0];
@@ -39,7 +50,7 @@ const UploadSection = ({ onFileSelect }) => {
             Upload a File
           </h2>
           <p className="mt-2 text-sm text-gray-300 lg:text-base">
-            Upload your story in PDF or TXT format.
+            Upload your story in PDF format
           </p>
         </div>
 
