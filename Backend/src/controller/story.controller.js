@@ -15,7 +15,7 @@ if(!story || story.trim() === ""){
     })
 }
 
-const { cleanedStory, scenes } = await processStory(story);
+const { cleanedStory, scenes, character} = await processStory(story);
 const userId=req.user.id
 const newStory=await storyModel.create({
     user:userId,
@@ -23,6 +23,7 @@ const newStory=await storyModel.create({
     originalStory:story,
     cleanedStory:cleanedStory,
     scenes:scenes,
+    characters:character,
     status:"successful"
 })
 

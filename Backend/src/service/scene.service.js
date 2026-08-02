@@ -1,5 +1,6 @@
 require("dotenv").config()
 const {GoogleGenAI}=require("@google/genai")
+const {extractCharacters}=require("../service/character.service")
 
 //MAKE CLIENT WHO WILL CALL SERVICES
 const ai=new GoogleGenAI({
@@ -149,8 +150,6 @@ const response=await ai.models.generateContent({
     model: "gemini-3.6-flash",
     contents: prompt 
 });
-// console.log("Complete Gemini Response:");
-// console.dir(response, { depth: null });
 
 const cleanedResponse = response.text
     .replace(/```json/g, "")
@@ -163,16 +162,26 @@ return scenes;
 }
 console.log("Calling processStory...");
 async function processStory(story){
-    console.log("Called cleaned story")
+
+    console.time("Called cleaned story")
     const cleanedStory=await cleanStory(story);
-    console.log(" cleaned story ended")
-    console.log(" generating scenes")
+    console.timeEnd(" cleaned story ended")
+
+    console.time(" generating scenes")
     const scenes=await generateScenes(cleanedStory);
     console.log(scenes)
-    console.log(" generating scenes ended")
+    console.timeEnd(" generating scenes ended")
+
+    console.time(" generating characters")
+    const character=await extractCharacters(cleanedStory,scenes);
+    console.log(character)
+    console.timeEnd(" generating characters ended")
+
+
     return {
         cleanedStory,
-        scenes
+        scenes,
+        character
     };
 
 

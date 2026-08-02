@@ -1,5 +1,45 @@
 const mongoose = require("mongoose");
-const userModel = require("./usermodel");
+
+const characterSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+
+    species: {
+      type: String,
+      default: "",
+    },
+
+    gender: {
+      type: String,
+      default: "",
+    },
+
+    age: {
+      type: String,
+      default: "",
+    },
+
+    appearance: {
+      type: String,
+      default: "",
+    },
+
+    clothing: {
+      type: String,
+      default: "",
+    },
+
+    personality: {
+      type: String,
+      default: "",
+    },
+  },
+  { _id: false },
+);
+
 const storySchema = new mongoose.Schema(
   {
     user: {
@@ -7,18 +47,27 @@ const storySchema = new mongoose.Schema(
       ref: "user",
       required: true,
     },
+
     title: {
       type: String,
       default: "Untitled Story",
     },
+
     originalStory: {
       type: String,
       default: "",
     },
+
     cleanedStory: {
       type: String,
       default: "",
     },
+    
+    characters: {
+      type: [characterSchema],
+      default: [],
+    },
+
     scenes: [
       {
         sceneNumber: {
