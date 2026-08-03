@@ -17,6 +17,13 @@ const characterSchema = new mongoose.Schema(
       default: "",
     },
 
+    characterSheet: {
+  visualDescription: {
+    type: String,
+    default: "",
+  },
+},
+
     age: {
       type: String,
       default: "",
@@ -62,7 +69,7 @@ const storySchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    
+
     characters: {
       type: [characterSchema],
       default: [],
