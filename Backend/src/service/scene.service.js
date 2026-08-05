@@ -160,35 +160,9 @@ const cleanedResponse = response.text
 const scenes = JSON.parse(cleanedResponse);
 return scenes;
 }
-console.log("Calling processStory...");
-async function processStory(story){
-
-    console.log("Called cleaned story")
-    const cleanedStory=await cleanStory(story);
-    console.log(" cleaned story ended")
-
-    console.log(" generating scenes")
-    const scenes=await generateScenes(cleanedStory);
-    console.log(scenes)
-    console.log(" generating scenes ended")
-
-    console.log(" generating characters")
-    const character=await generateCharacterSheet(cleanedStory,scenes);
-    console.log(character)
-    console.log(" generating characters ended")
 
 
-    return {
-        cleanedStory,
-        scenes,
-        character
-    };
-
-
-}
-console.log("processStory completed.");
 module.exports={
     cleanStory,
     generateScenes,
-    processStory
 }

@@ -18,11 +18,11 @@ const characterSchema = new mongoose.Schema(
     },
 
     characterSheet: {
-  visualDescription: {
-    type: String,
-    default: "",
-  },
-},
+      visualDescription: {
+        type: String,
+        default: "",
+      },
+    },
 
     age: {
       type: String,
@@ -81,20 +81,29 @@ const storySchema = new mongoose.Schema(
           type: Number,
           required: true,
         },
+
         title: {
           type: String,
           required: true,
         },
+
         characters: {
           type: [String],
           default: [],
         },
+
         description: {
           type: String,
           required: true,
         },
+
+        imagePrompt: {
+          type: String,
+          default: "",
+        },
       },
     ],
+    
     status: {
       type: String,
       enum: ["processing", "successful", "failed"],
