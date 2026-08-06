@@ -10,7 +10,8 @@ const ai = new GoogleGenAI({
 
 //character extraction
 async function generateCharacterSheet(cleanedStory, scenes) {
-const prompt=  `You are an expert character designer for an AI-powered animated storytelling application.
+const prompt=`text
+You are an expert character designer for an AI-powered animated storytelling application.
 
 TASK
 
@@ -45,47 +46,57 @@ RULES
 
 2. Ignore background people or unnamed extras unless they play an important role in the story.
 
-3. Use the story only to infer missing information.
+3. Use the story only to infer missing information that is necessary for maintaining a consistent visual identity.
 
-4. If a detail is not explicitly mentioned, make a reasonable and consistent inference suitable for a children's animated story.
-
-5. Keep these fields short:
+4. Keep these fields concise:
 - appearance
 - clothing
 - personality
 
-6. For "characterSheet.visualDescription":
+5. For "characterSheet.visualDescription":
+
 - Write one complete paragraph.
-- Combine appearance, hairstyle, facial features, clothing, age, body type, expression and overall look.
-- The description should be detailed enough that an image generation model can recreate the same character consistently across every scene.
-- Keep the description visually focused.
-- Do not describe actions or scenes.
-- Do not mention camera angles or backgrounds.
-- End with:
-  "Children's storybook illustration style."
+- Combine the character's physical appearance, hairstyle, facial features, body type, age, clothing, expression, and any visually important accessories.
+- Focus entirely on details that can be seen in an illustration.
+- Do not describe actions, poses, emotions tied to a specific scene, camera angles, backgrounds, or lighting.
+- The description should be detailed enough that an AI image generation model can recreate the same character consistently across every scene.
+- End the description by specifying a visual art style that naturally fits the overall story. Infer the style from the story itself instead of forcing one.
 
-7. Preserve consistency.
-Every character should have one stable visual identity that can be reused throughout the story.
+Examples of suitable styles include:
+- Cinematic Digital Painting
+- Semi-Realistic Illustration
+- Storybook Illustration
+- Fantasy Concept Art
+- Anime Style
+- Stylized 3D Animation
+- Realistic Digital Art
+- Watercolor Illustration
+- Oil Painting
 
-8. Return ONLY valid JSON.
-Do not include markdown, explanations, notes or extra text.
+Choose whichever style best suits the story and keep it consistent for every character.
 
-If a detail is not explicitly mentioned, make a reasonable visual inference.
+6. Preserve consistency.
 
-Avoid unnecessary specificity.
+Every character must have one stable visual identity that can be reused throughout the entire story.
 
-For example:
-- Use "young boy" instead of "8 years old".
-- Use "middle-aged woman" instead of "42 years old".
-- Use "elderly man" instead of "65 years old".
+7. If a detail is not explicitly mentioned, make a reasonable visual inference without contradicting the story.
 
+8. Avoid unnecessary precision.
+
+Examples:
+- "young boy" instead of "8 years old"
+- "middle-aged woman" instead of "42 years old"
+- "elderly man" instead of "65 years old"
+
+9. Return ONLY valid JSON.
+
+Do not include markdown, explanations, notes, or additional text.
 Story:
 ${cleanedStory}
 
 Scenes:
 ${JSON.stringify(scenes, null, 2)}
 `
-
 
   const response = await ai.models.generateContent({
     model: "gemini-3.6-flash",
@@ -99,7 +110,6 @@ ${JSON.stringify(scenes, null, 2)}
 
   //convert json text into obj
   const characterSheet = JSON.parse(cleanedResponse);
-
   return characterSheet;
 }
 

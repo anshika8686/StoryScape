@@ -101,9 +101,14 @@ const storySchema = new mongoose.Schema(
           type: String,
           default: "",
         },
+
+        imageUrl:{
+          type:String,
+          default: ""
+        },
       },
     ],
-    
+
     status: {
       type: String,
       enum: ["processing", "successful", "failed"],

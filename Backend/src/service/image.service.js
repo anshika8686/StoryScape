@@ -124,15 +124,11 @@ const cleanedResponse = response.text
     .trim();
 
   //convert json text into obj
-  const imagePrompt = JSON.parse(cleanedResponse);
-  return imagePrompt;
+  const imagePrompts = JSON.parse(cleanedResponse);
+  return imagePrompts;
 }
 
-async function generateImages(){
-
-}
 
 module.exports={
     generateImagePrompts,
-    generateImages
 }
