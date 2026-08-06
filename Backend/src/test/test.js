@@ -1,5 +1,5 @@
 require("dotenv").config()
-const {cleanStory,generateScenes}=require("../src/service/scene.service")
+const {cleanStory,generateScenes}=require("../service/scene.service")
 
 const sampleStory = `
 Page 1
