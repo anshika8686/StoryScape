@@ -50,6 +50,7 @@ console.log(" generating image prompt ended")
 //     );
 //     scene.imageUrl = imageUrl;
 // }
+
 console.log("processStory completed.");
 
 
