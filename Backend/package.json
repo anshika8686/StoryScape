@@ -12,6 +12,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@elevenlabs/elevenlabs-js": "^2.62.0",
     "@google/genai": "^2.15.0",
     "@huggingface/inference": "^4.13.25",
     "axios": "^1.19.0",

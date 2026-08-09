@@ -1,63 +1,173 @@
-const {cleanStory, generateScenes}=require("../service/scene.service")
-const {generateCharacterSheet}=require("../service/character.service")
-const {generateImagePrompts,generateImage}=require("../service/image.service")
+const { cleanStory, generateScenes } = require("../service/scene.service");
+const { generateCharacterSheet } = require("../service/character.service");
+const {
+  generateImagePrompts,
+  generateImage,
+} = require("../service/image.service");
+const {
+  createSceneVideo,
+  mergeVideoWithAudio,
+  mergeVideos,
+} = require("../service/video.service");
+const { generateNarration } = require("../service/audio.service");
 
+const path = require("path");
+const fs = require("fs-extra");
 
-async function processStory(story,storyId){
-    console.log("Calling processStory...");
+async function processStory(story, storyId) {
+  console.log("=================================");
+  console.log("Starting StoryScape pipeline...");
+  console.log("=================================");
 
-    console.log("Called cleaned story")
-    const cleanedStory=await cleanStory(story);
-    console.log(" cleaned story ended")
+  // ==========================================
+  // 1. CLEAN STORY
+  // ==========================================
 
+  console.log("Cleaning story...");
+  const cleanedStory = await cleanStory(story);
+  console.log("Cleaned story completed.");
 
-    console.log(" generating scenes")
-    const scenes=await generateScenes(cleanedStory);
-    console.log(scenes)
-    console.log(" generating scenes ended")
+  // ==========================================
+  // 2. GENERATE SCENES
+  // ==========================================
 
+  console.log("Generating scenes...");
+  const scenes = await generateScenes(cleanedStory);
+  console.log(`Generated ${scenes.length} scenes.`);
 
-    console.log(" generating characters")
-    const characters=await generateCharacterSheet(cleanedStory,scenes);
-    console.log(characters)
-    console.log(" generating characters ended")
+  // ==========================================
+  // 3. GENERATE CHARACTER SHEET
+  // ==========================================
 
+  console.log("Generating characters...");
+  const characters = await generateCharacterSheet(cleanedStory, scenes);
+  console.log("Character generation completed.");
 
-    console.log(" generating image prompt")
-    const imagePrompts=await generateImagePrompts(scenes,characters);
-    console.log(imagePrompts)
-    
-//embed image prompts in their particular scene 
-    const updatedScenes = scenes.map((scene) => {
+  // ==========================================
+  // 4. GENERATE IMAGE PROMPTS + EFFECTS
+  // ==========================================
+  console.log("Generating image prompts and cinematic effects...");
+  const imagePrompts = await generateImagePrompts(scenes, characters);
+  console.log("Image prompts generated.");
+
+  // ==========================================
+  // 5. ATTACH IMAGE PROMPT + EFFECT TO SCENES
+  // ==========================================
+
+  const updatedScenes = scenes.map((scene) => {
     const matchingPrompt = imagePrompts.find(
-        (prompt) => prompt.sceneNumber === scene.sceneNumber
+      (prompt) => prompt.sceneNumber === scene.sceneNumber,
+    );
+    return {
+      ...scene,
+      imagePrompt: matchingPrompt?.imagePrompt || "",
+      effect: matchingPrompt?.effect || "zoomIn",
+    };
+  });
+
+  // ==========================================
+  // 6. PROCESS EACH SCENE
+  // ==========================================
+
+  const processedScenes = [];
+  const finalScenePaths = [];
+
+  for (const scene of updatedScenes) {
+    console.log(`\n========== Scene ${scene.sceneNumber} ==========`);
+
+    // ------------------------------------------
+    // IMAGE
+    // ------------------------------------------
+
+    console.log("Generating image...");
+    const imagePath = await generateImage(
+      scene.imagePrompt,
+      storyId,
+      scene.sceneNumber,
+    );
+    console.log(`Image generated: ${imagePath}`);
+
+    // ------------------------------------------
+    // SCENE VIDEO
+    // ------------------------------------------
+
+    console.log(`Applying cinematic effect: ${scene.effect}`);
+
+    const videoPath = await createSceneVideo(
+      imagePath,
+      storyId,
+      scene.sceneNumber,
+      scene.effect,
     );
 
-    return {
-        ...scene,
-        imagePrompt: matchingPrompt?.imagePrompt || "",
-    };
-});
-console.log(" generating image prompt ended")
+    console.log(`Scene video created: ${videoPath}`);
 
-// console.log(" generating image started")
-// for (const scene of updatedScenes) {
-//     console.log(
-//     `Generating image for Scene ${scene.sceneNumber}...`
-// );
-//     const imageUrl = await generateImage(scene.imagePrompt,
-//         storyId,scene.sceneNumber
-//     );
-//     scene.imageUrl = imageUrl;
-// }
+    // ------------------------------------------
+    // NARRATION
+    // ------------------------------------------
 
-console.log("processStory completed.");
+    console.log("Generating narration...");
+    const audioPath = await generateNarration(
+      scene.description,
+      storyId,
+      scene.sceneNumber,
+    );
+    console.log(`Narration created: ${audioPath}`);
 
+    // ------------------------------------------
+    // VIDEO + AUDIO
+    // ------------------------------------------
 
-    return {
-        cleanedStory,
-        scenes:updatedScenes,
-        characters,
-    };
+    console.log("Combining video and narration...");
+
+    const finalScenePath = await mergeVideoWithAudio(
+      videoPath,
+      audioPath,
+      storyId,
+      scene.sceneNumber,
+    );
+
+    console.log(`Final scene created: ${finalScenePath}`);
+    finalScenePaths.push(finalScenePath);
+
+    // ------------------------------------------
+    // STORE PROCESSED SCENE
+    // ------------------------------------------
+
+    processedScenes.push({
+      ...scene,
+      imageUrl: imagePath,
+      videoUrl: videoPath,
+      audioUrl: audioPath,
+    });
+    console.log(`Scene ${scene.sceneNumber} completed.`);
+  }
+  // ==========================================
+  // 7. MERGE ALL FINAL SCENES
+  // ==========================================
+
+  console.log("\nMerging all scene videos...");
+
+  const finalVideoPath = await mergeVideos(finalScenePaths, storyId);
+
+  console.log(`Final story video created: ${finalVideoPath}`);
+
+  // ==========================================
+  // 8. RETURN EVERYTHING
+  // ==========================================
+
+  console.log("\n=================================");
+  console.log("StoryScape pipeline completed.");
+  console.log("=================================");
+
+  return {
+    cleanedStory,
+    scenes: processedScenes,
+    characters,
+    finalVideoUrl: finalVideoPath,
+  };
 }
-module.exports={processStory}
+
+module.exports = {
+  processStory,
+};

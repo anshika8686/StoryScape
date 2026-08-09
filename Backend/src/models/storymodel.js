@@ -102,12 +102,39 @@ const storySchema = new mongoose.Schema(
           default: "",
         },
 
-        imageUrl:{
-          type:String,
-          default: ""
+        effect: {
+          type: String,
+          enum: [
+            "zoomIn",
+            "zoomOut",
+            "panLeft",
+            "panRight",
+            "panUp",
+            "panDown",
+          ],
+          default: "zoomIn",
+        },
+
+        imageUrl: {
+          type: String,
+          default: "",
+        },
+
+        videoUrl: {
+          type: String,
+          default: "",
+        },
+
+        audioUrl: {
+          type: String,
+          default: "",
         },
       },
     ],
+    finalVideoUrl: {
+      type: String,
+      default: "",
+    },
 
     status: {
       type: String,
