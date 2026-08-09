@@ -169,6 +169,8 @@ const cleanedResponse = response.text
 }
 
 
+
+
 module.exports={
     generateImagePrompts,
 }

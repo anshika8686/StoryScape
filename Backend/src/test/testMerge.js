@@ -9,7 +9,7 @@ async function testMerge() {
     const videos = [
       path.join(
         __dirname,
-        "../../uploads/videos/test-story/Scene-1-final.mp4"
+        "../../uploads/videos/test-story/Scene-1-subtitled.mp4"
       ),
 
       path.join(

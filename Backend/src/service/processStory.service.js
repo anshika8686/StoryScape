@@ -1,15 +1,10 @@
 const { cleanStory, generateScenes } = require("../service/scene.service");
 const { generateCharacterSheet } = require("../service/character.service");
-const {
-  generateImagePrompts,
-  generateImage,
-} = require("../service/image.service");
-const {
-  createSceneVideo,
-  mergeVideoWithAudio,
-  mergeVideos,
-} = require("../service/video.service");
+const {generateImagePrompts} = require("../service/image.service");
+const {generateImage}=require("../service/imagegen.service");
+const {createSceneVideo,mergeVideoWithAudio,mergeVideos} = require("../service/video.service");
 const { generateNarration } = require("../service/audio.service");
+const {addSubtitleToVideo,createSubtitle}=require("../service/subtitle.service");
 
 const path = require("path");
 const fs = require("fs-extra");
@@ -96,8 +91,9 @@ async function processStory(story, storyId) {
     const videoPath = await createSceneVideo(
       imagePath,
       storyId,
-      scene.sceneNumber,
       scene.effect,
+      scene.sceneNumber,
+      
     );
 
     console.log(`Scene video created: ${videoPath}`);
@@ -128,7 +124,23 @@ async function processStory(story, storyId) {
     );
 
     console.log(`Final scene created: ${finalScenePath}`);
-    finalScenePaths.push(finalScenePath);
+    
+    const subtitlePath = await createSubtitle(
+       scene.description,
+      storyId,
+      scene.sceneNumber,
+      5
+);
+
+    const subtitledScenePath = await addSubtitleToVideo(
+    finalScenePath,
+    subtitlePath,
+    storyId,
+    scene.sceneNumber
+);
+
+finalScenePaths.push(subtitledScenePath);
+
 
     // ------------------------------------------
     // STORE PROCESSED SCENE
@@ -137,7 +149,7 @@ async function processStory(story, storyId) {
     processedScenes.push({
       ...scene,
       imageUrl: imagePath,
-      videoUrl: videoPath,
+      videoUrl: subtitledScenePath,
       audioUrl: audioPath,
     });
     console.log(`Scene ${scene.sceneNumber} completed.`);
