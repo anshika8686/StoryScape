@@ -10,7 +10,6 @@ import LoadingOverlay from "../../components/CreateStory/LoadingOverlay";
 const CreateStory = () => {
   const [story, setStory] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
- 
 
 
   return (
@@ -24,7 +23,7 @@ const CreateStory = () => {
 
         <UploadSection onFileSelect={setSelectedFile}  />
 
-        <GenerateButton story={story} selectedFile={selectedFile}/>
+        <GenerateButton story={story} selectedFile={selectedFile} />
       </main>
 
       <LoadingOverlay />
