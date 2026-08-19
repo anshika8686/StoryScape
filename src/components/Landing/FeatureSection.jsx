@@ -4,9 +4,9 @@ import { Upload, Sparkles, PlayCircle } from "lucide-react";
 const features = [
   {
     icon: Upload,
-    title: "Upload Novel",
+    title: "Upload Story",
     description:
-      "Upload your favorite novel in PDF or text format and let StoryScape understand the story.",
+      "Upload your favorite story in PDF or text format and let StoryScape understand the story.",
   },
   {
     icon: Sparkles,
@@ -18,7 +18,7 @@ const features = [
     icon: PlayCircle,
     title: "Enjoy the Experience",
     description:
-      "Watch your novel come alive with cinematic animations, voice-over, and immersive storytelling.",
+      "Watch your story come alive with cinematic animations, voice-over, and immersive storytelling.",
   },
 ];
 
@@ -41,7 +41,7 @@ function FeatureSection() {
 
           <h2 className="mt-4 text-4xl md:text-5xl font-bold">
             Bring Stories
-            <span className="bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-yellow-300 to-orange-400 bg-clip-text text-transparent">
               {" "}
               To Life
             </span>
@@ -54,7 +54,7 @@ function FeatureSection() {
         </motion.div>
 
         {/* Feature Cards */}
-        <div className="mt-16 grid gap-8 md:grid-cols-3">
+        <div className="mt-16 grid gap-8 md:grid-cols-3 cursor-pointer">
           {features.map((feature, index) => {
             const Icon = feature.icon;
 
@@ -74,7 +74,7 @@ function FeatureSection() {
                 }}
                 className="rounded-3xl border border-slate-700 bg-slate-900/60 p-8 backdrop-blur-md transition-all duration-300 hover:border-orange-400/40 hover:shadow-xl hover:shadow-orange-500/10"
               >
-                <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-orange-400 to-red-500 shadow-lg shadow-orange-500/30">
+                <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-yellow-300 to-orange-400 shadow-lg shadow-orange-500/30">
                   <Icon size={30} className="text-black" />
                 </div>
 

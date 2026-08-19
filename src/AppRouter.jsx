@@ -9,6 +9,8 @@ import SignUp from './pages/Auth/SignUp'
 import ProtectedRoute from './components/Common/ProtectedRoute'
 import Dashboard from './pages/Dashboard/Dashboard'
 import CreateStory from './pages/CreateStory/CreateStory'
+import StoryResult from './pages/CreateResult/CreateResult'
+import OurVision from './pages/Vision/Vision'
 
 const AppRouter = () => {
   return (
@@ -16,6 +18,7 @@ const AppRouter = () => {
    <Routes>
 
     <Route path="/" element={<LandingPage/>}></Route>
+    <Route path='/vision' element={<OurVision/>}></Route>
 
     <Route element={<AuthLayout/>}>
     <Route path='/login' element={<Login/>}></Route>
@@ -25,6 +28,7 @@ const AppRouter = () => {
     <Route element={<ProtectedRoute/>}>
     <Route path='/dashboard' element={<Dashboard/>}></Route>
     <Route path='/create-story' element={<CreateStory/>}></Route>
+    <Route path='/story-result' element={<StoryResult/>}></Route>
 
     </Route>
     

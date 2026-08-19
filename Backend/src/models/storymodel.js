@@ -96,7 +96,11 @@ const storySchema = new mongoose.Schema(
           type: String,
           required: true,
         },
+        script:{
+          type: String,
+          required: true,
 
+        },
         imagePrompt: {
           type: String,
           default: "",

@@ -94,14 +94,7 @@ const UploadSection = ({ onFileSelect }) => {
               Upload PDF
             </button>
 
-            <button
-              type="button"
-              onClick={() => txtInputRef.current?.click()}
-              className="inline-flex items-center justify-center gap-3 rounded-2xl border border-blue-400/20 bg-blue-400/10 px-5 py-3 text-sm font-medium text-blue-200 transition hover:bg-blue-400/20"
-            >
-              <FileUp className="h-4 w-4" />
-              Upload TXT
-            </button>
+          
           </div>
 
           {selectedFile && (

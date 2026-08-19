@@ -28,6 +28,7 @@ async function processStory(story, storyId) {
 
   console.log("Generating scenes...");
   const scenes = await generateScenes(cleanedStory);
+  console.log(scenes)
   console.log(`Generated ${scenes.length} scenes.`);
 
   // ==========================================
@@ -104,7 +105,7 @@ async function processStory(story, storyId) {
 
     console.log("Generating narration...");
     const audioPath = await generateNarration(
-      scene.description,
+      scene.script,
       storyId,
       scene.sceneNumber,
     );
@@ -126,7 +127,7 @@ async function processStory(story, storyId) {
     console.log(`Final scene created: ${finalScenePath}`);
     
     const subtitlePath = await createSubtitle(
-       scene.description,
+       scene.script,
       storyId,
       scene.sceneNumber,
       5
@@ -177,6 +178,7 @@ finalScenePaths.push(subtitledScenePath);
     scenes: processedScenes,
     characters,
     finalVideoUrl: finalVideoPath,
+    
   };
 }
 

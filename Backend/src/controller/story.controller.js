@@ -1,6 +1,7 @@
 const storyModel = require("../models/storymodel");
 const pdfService = require("../service/pdfservice");
 const { processStory } = require("../service/processStory.service");
+const { uploadVideo } = require("../service/cloudinary.service");
 
 //TAKES THE STORY
 //SENDS TO AI FOR PROCESSING
@@ -33,16 +34,23 @@ async function generatestoryController(req, res) {
     console.log("Story document created:", newStory._id);
 
     // Run AI pipeline
-    const { cleanedStory, scenes, characters } = await processStory(
+    const { cleanedStory, scenes, characters, localVideoPath } = await processStory (
       story,
       newStory._id
     );
 
+   const videoUrl = await uploadVideo(
+  localVideoPath,
+  newStory._id
+);
+
+console.log(videoUrl);
     // Update story with AI results
     await storyModel.findByIdAndUpdate(newStory._id, {
       cleanedStory,
       characters,
       scenes,
+      finalVideoUrl:videoUrl,
       status: "successful",
     });
 
@@ -51,6 +59,7 @@ async function generatestoryController(req, res) {
     return res.status(201).json({
       message: "Story processed successfully",
       storyId: newStory._id,
+      finalVideoUrl: videoUrl
     });
 
   } catch (err) {

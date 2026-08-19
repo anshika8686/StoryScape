@@ -109,15 +109,6 @@ Focus only on:
 - Keep the language simple and cinematic.
 
 Each description should clearly describe the beginning of the scene, making it easy to visualize as an animation.
-
-AVOID:
-- Excessive adjectives.
-- Flowery writing.
-- Repeating emotions.
-- Repeating physical descriptions.
-- Long introductions.
-- Background information that is not visually shown.
-
 Do not infer events that are not explicitly mentioned in the story.
 
 If an event is implied but not described, describe only what is directly supported by the story.
@@ -127,6 +118,38 @@ GOOD DESCRIPTION EXAMPLE:
 
 BAD DESCRIPTION EXAMPLE:
 "The fluffy white rabbit slowly walks through a beautiful, vibrant, magical forest filled with colorful flowers before carefully approaching an ancient mysterious cave."
+SCENE SCRIPT:
+
+For every scene, extract the portion of the ORIGINAL STORY that belongs to that scene.
+
+The script will be used for:
+- narration
+- subtitles
+
+IMPORTANT:
+- Preserve the original wording of the story as much as possible.
+- Do NOT invent narration.
+- Do NOT add dialogue that does not exist in the story.
+- Do NOT summarize the story.
+- Do NOT rewrite the story into cinematic language.
+- Do NOT include visual directions.
+- Do NOT include the scene title or description.
+- The script should contain only the story text that is spoken/displayed for that scene.
+- Preserve the original sequence of events.
+- Every important part of the story should belong to exactly one scene.
+- Do not omit story content simply because it is not visually important.
+- If dialogue exists in the original story, preserve it in the appropriate scene.
+- The combined scripts of all scenes should faithfully represent the complete story.
+
+AVOID:
+- Excessive adjectives.
+- Flowery writing.
+- Repeating emotions.
+- Repeating physical descriptions.
+- Long introductions.
+- Background information that is not visually shown.
+
+
 
 Return ONLY valid JSON.
 
@@ -137,12 +160,10 @@ Required format:
     "sceneNumber": 1,
     "title": "...",
     "characters": ["..."],
-    "description": "..."
+    "description": "...",
+    "script": "..."
   }
 ]
-
-Story:
-
 
 Story: ${cleanedStory}`;
 

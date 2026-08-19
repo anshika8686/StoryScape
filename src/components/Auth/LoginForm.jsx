@@ -23,8 +23,6 @@ const LoginForm = () => {
     })
 
     console.log("Login Form submitted successfully");
-    alert('Login Form submitted successfully')
-
   }
   
   return (

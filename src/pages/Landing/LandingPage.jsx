@@ -1,6 +1,6 @@
 import DemoSection from "../../components/Landing/DemoSection";
 import FeatureSection from "../../components/Landing/FeatureSection";
-import Footer from "../../components/Landing/Footer";
+import Footer from "../../components/Common/Footer";
 import Hero from "../../components/Landing/Hero";
 
 
